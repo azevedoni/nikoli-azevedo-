@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>index</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+<script>
+
+  function buscarEnderecoNoViaCEP() {
+    var componentePesquisaCep = document.getElementById("pesquisaCep");
+    alert("O cep digitado é:" + componentePesquisaCep.value);
+
+    alert("funcionou");
+    const url = 'https://viacep.com.br/';
+
+     //Cria um elemento javascript.
+     var script = document.createElement('script');
+
+//Sincroniza com o callback.
+script.src = 'https://viacep.com.br/ws/'+ componentePesquisaCep.value + '/json/?callback=meu_callback';
+
+//Insere script no documento e carrega o conteúdo.
+document.body.appendChild(script);
+
+  }
+  function meu_callback(conteudo) {
+        if (!("erro" in conteudo)) {
+            //Atualiza os campos com os valores.
+            document.getElementById('rua').value=(conteudo.logradouro);
+            document.getElementById('bairro').value=(conteudo.bairro);
+            document.getElementById('cidade').value=(conteudo.localidade);
+            document.getElementById('uf').value=(conteudo.uf);
+            document.getElementById('ibge').value=(conteudo.ibge);
+        } //end if.
+        else {
+            //CEP não Encontrado.
+            limpa_formulário_cep();
+            alert("CEP não encontrado.");
+        }
+    }
+
+</script>
+</head>
+
+<body>
+  <form method="get" action=".">
+  <label>Cep:
+  <input name="pesquisaCep" id="pesquisaCep" type="number">
+  <input type="button" name="Pesquisar" onclick="buscarEnderecoNoViaCEP()" value="Pesquisar">
+  <br />
+  <label>Rua:
+    <input name="rua" type="text" id="rua" size="60" /></label><br />
+    <label>Bairro:
+    <input name="bairro" type="text" id="bairro" size="40" /></label><br />
+    <label>Cidade:
+    <input name="cidade" type="text" id="cidade" size="40" /></label><br />
+    <label>Estado:
+    <input name="uf" type="text" id="uf" size="2" /></label><br />
+    <label>IBGE:
+    <input name="ibge" type="text" id="ibge" size="8" /></label><br />
+  </form>
+</body>
+
+</html>
